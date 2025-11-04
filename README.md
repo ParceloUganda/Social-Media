@@ -144,34 +144,34 @@ GPT_MODEL = 'gpt-4o'               # Or 'gpt-4o-mini' for cheaper
 ### Quick Start - Run All Phases
 
 ```bash
-# Phase 1: Parse JSON data
-python phase1_data_parser.py
+# Phase 1: Parse JSON data (✅ Already done)
+python scripts/phase1_data_parser.py
 
 # Phase 2: Download videos and extract audio
-python phase2_audio_extractor.py
+python scripts/phase2_audio_extractor.py
 
 # Phase 3: Transcribe audio with Whisper
-python phase3_transcriber.py
+python scripts/phase3_transcriber.py
 
 # Phase 4: Classify products with GPT-4 (Batch API)
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 
 # Wait 24 hours for batch processing...
 
 # Check batch status
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 
 # Phase 5: Generate final CSV
-python phase5_final_csv.py
+python scripts/phase5_final_csv.py
 ```
 
 ### Detailed Usage
 
 #### Phase 1: Data Parsing
 ```bash
-python phase1_data_parser.py
+python scripts/phase1_data_parser.py
 ```
-**Output:** `viral_database.csv` with basic info (caption, account, views, URL, platform)
+**Output:** `output/viral_database.csv` with basic info (caption, account, views, URL, platform)
 
 **What it does:**
 - Reads `instagram.json` and `tiktok.json`
@@ -180,9 +180,9 @@ python phase1_data_parser.py
 
 #### Phase 2: Audio Extraction
 ```bash
-python phase2_audio_extractor.py
+python scripts/phase2_audio_extractor.py
 ```
-**Output:** MP3 audio files in `extracted_audio/`, processing log in `audio_extraction_results.json`
+**Output:** MP3 audio files in `output/extracted_audio/`, processing log in `output/audio_extraction_results.json`
 
 **What it does:**
 - Downloads videos using yt-dlp
@@ -194,9 +194,9 @@ python phase2_audio_extractor.py
 
 #### Phase 3: Transcription
 ```bash
-python phase3_transcriber.py
+python scripts/phase3_transcriber.py
 ```
-**Output:** Transcripts in `transcripts/` folder + `transcriptions.csv`
+**Output:** Transcripts in `output/transcripts/` folder + `output/transcriptions.csv`
 
 **What it does:**
 - Transcribes each audio file with Whisper
@@ -211,9 +211,9 @@ python phase3_transcriber.py
 
 #### Phase 4: Classification (Batch)
 ```bash
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 ```
-**Output:** `batch_classification_status.json` → `classifications.csv` (after 24h)
+**Output:** `output/batch_classification_status.json` → `output/classifications.csv` (after 24h)
 
 **What it does:**
 - Creates batch classification requests
@@ -229,9 +229,9 @@ python phase4_classifier.py
 
 #### Phase 5: Final CSV
 ```bash
-python phase5_final_csv.py
+python scripts/phase5_final_csv.py
 ```
-**Output:** `viral_database_FINAL.csv` - Your complete marketing database!
+**Output:** `output/viral_database_FINAL.csv` - Your complete marketing database!
 
 **What it does:**
 - Merges all data from phases 1-4
@@ -393,7 +393,7 @@ sudo apt install ffmpeg
 **Solution:**
 ```bash
 # Check status
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 
 # If stuck, check OpenAI dashboard
 # https://platform.openai.com/batches
