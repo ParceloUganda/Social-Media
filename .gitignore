@@ -1,0 +1,29 @@
+# Environment
+.env
+*.pyc
+__pycache__/
+
+# Generated data
+temp_media/
+extracted_audio/
+transcripts/
+*.jsonl
+audio_extraction_results.json
+transcriptions.csv
+classifications.csv
+batch_classification_status.json
+batch_classification_requests.jsonl
+
+# Output (keep example, ignore generated)
+viral_database.csv
+viral_database_FINAL.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
