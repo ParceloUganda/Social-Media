@@ -1,14 +1,19 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import pandas as pd
 import os
+import config
 
 # Full dataset
-full_df = pd.read_csv('viral_database.csv')
+full_df = pd.read_csv(config.OUTPUT_CSV)
 
 # Check audio files
-audio_files = set([f.replace('.mp3', '') for f in os.listdir('extracted_audio') if f.endswith('.mp3')])
+audio_files = set([f.replace('.mp3', '') for f in os.listdir(config.AUDIO_DIR) if f.endswith('.mp3')])
 
 # Check transcripts
-transcript_files = set([f.replace('.json', '') for f in os.listdir('transcripts') if f.endswith('.json')])
+transcript_files = set([f.replace('.json', '') for f in os.listdir(config.TRANSCRIPTS_DIR) if f.endswith('.json')])
 
 print('='*60)
 print('FULL DATASET PROCESSING STATUS')

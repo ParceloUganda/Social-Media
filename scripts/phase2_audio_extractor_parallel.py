@@ -4,6 +4,10 @@ Uses ThreadPoolExecutor for concurrent downloads and processing
 Optimized for M2 Pro with 8-12 cores
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import os
 import subprocess
 import hashlib

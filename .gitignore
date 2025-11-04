@@ -3,20 +3,14 @@
 *.pyc
 __pycache__/
 
-# Generated data
-temp_media/
+# Output directory (generated data)
+output/
+!output/.gitkeep
+
+# Old generated folders (before reorganization)
 extracted_audio/
 transcripts/
-*.jsonl
-audio_extraction_results.json
-transcriptions.csv
-classifications.csv
-batch_classification_status.json
-batch_classification_requests.jsonl
-
-# Output (keep example, ignore generated)
-viral_database.csv
-viral_database_FINAL.csv
+temp_media/
 
 # IDE
 .vscode/
@@ -24,6 +18,8 @@ viral_database_FINAL.csv
 *.swp
 *.swo
 .DS_Store
+._*
 
 # Logs
+logs/
 *.log

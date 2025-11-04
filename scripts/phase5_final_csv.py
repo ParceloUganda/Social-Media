@@ -1,7 +1,11 @@
 """
-Phase 5: Final CSV Generation - Merge all data into final viral database
-Creates the complete CSV with all fields populated.
+Phase 5: Final CSV Generation - Merge all data from previous phases
+Creates the comprehensive final viral database CSV
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pandas as pd
 import os
@@ -23,7 +27,7 @@ def merge_all_data():
     print(f"   Base records: {len(df)}")
     
     # Load transcriptions
-    transcripts_path = 'transcriptions.csv'
+    transcripts_path = config.PROJECT_ROOT / 'output' / 'transcriptions.csv'
     if os.path.exists(transcripts_path):
         print(f"\n📂 Loading transcriptions...")
         transcripts_df = pd.read_csv(transcripts_path)
@@ -44,7 +48,7 @@ def merge_all_data():
         print(f"\n⚠️  No transcriptions file found")
     
     # Load classifications
-    classifications_path = 'classifications.csv'
+    classifications_path = config.PROJECT_ROOT / 'output' / 'classifications.csv'
     if os.path.exists(classifications_path):
         print(f"\n📂 Loading classifications...")
         class_df = pd.read_csv(classifications_path)
@@ -103,7 +107,7 @@ def merge_all_data():
     final_df = final_df.sort_values('view_count', ascending=False)
     
     # Save final CSV
-    final_output = 'viral_database_FINAL.csv'
+    final_output = config.PROJECT_ROOT / 'output' / 'viral_database_FINAL.csv'
     final_df.to_csv(final_output, index=False, encoding='utf-8')
     
     # Print statistics

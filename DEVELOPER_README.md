@@ -59,60 +59,78 @@ python -c "import config; print('✅ Ready!' if config.OPENAI_API_KEY else '❌ 
 
 ### Phase 2: Extract Audio (2-3 hours, $0)
 ```bash
-python phase2_audio_extractor.py
+python scripts/phase2_audio_extractor.py
 ```
-Downloads 1,286 videos and extracts audio to MP3. Output: `extracted_audio/` folder
+Downloads 1,286 videos and extracts audio to MP3. Output: `output/extracted_audio/` folder
 
 ### Phase 3: Transcribe Audio (1-2 hours, ~$19)
 ```bash
-python phase3_transcriber.py
+python scripts/phase3_transcriber.py
 ```
-Transcribes audio using OpenAI Whisper. Output: `transcripts/` folder + `transcriptions.csv`
+Transcribes audio using OpenAI Whisper. Output: `output/transcripts/` + `output/transcriptions.csv`
 
 ### Phase 4: Classify Products (5 min + 24h wait, ~$5)
 ```bash
 # Day 1: Submit batch job
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 
 # Day 2: Retrieve results (after 24 hours)
-python phase4_classifier.py
+python scripts/phase4_classifier.py
 ```
-Uses GPT-4 Batch API (50% savings). Output: `classifications.csv`
+Uses GPT-4 Batch API (50% savings). Output: `output/classifications.csv`
 
 ### Phase 5: Generate Final CSV (< 5 min, $0)
 ```bash
-python phase5_final_csv.py
+python scripts/phase5_final_csv.py
 ```
-Merges all data. Output: `viral_database_FINAL.csv` ← **This is your final deliverable!**
+Merges all data. Output: `output/viral_database_FINAL.csv` ← **This is your final deliverable!**
 
 ---
 
 ## 📊 Project Structure
 
 ```
-Pipeline Phases:
-├── phase1_data_parser.py          ✅ DONE (1,286 videos parsed)
-├── phase2_audio_extractor.py      ⏳ Download videos & extract audio
-├── phase3_transcriber.py          ⏳ Transcribe with Whisper API
-├── phase4_classifier.py           ⏳ Classify with GPT-4 Batch API
-└── phase5_final_csv.py            ⏳ Generate final database
-
-Config Files:
-├── config.py                      Settings & thresholds
-├── .env                           Your API key (create from .env.example)
-└── requirements.txt               Python dependencies
-
-Input Data:
-├── instagram.json                 Instagram videos (278 videos)
-└── tiktok.json                    TikTok videos (1,008 videos)
-
-Generated Output:
-├── viral_database.csv             ✅ Phase 1 output (exists)
-├── extracted_audio/               Phase 2 output
-├── transcripts/                   Phase 3 output
-├── transcriptions.csv             Phase 3 summary
-├── classifications.csv            Phase 4 output
-└── viral_database_FINAL.csv       Phase 5 final database ← YOUR DELIVERABLE
+Social Media/
+├── 📄 README.md                    Main documentation
+├── 📄 DEVELOPER_README.md          This file
+├── 📄 .env                         Your API key (create from .env.example)
+├── 📄 requirements.txt             Python dependencies
+│
+├── 📂 scripts/                     Pipeline phases
+│   ├── phase1_data_parser.py      ✅ DONE (1,286 videos parsed)
+│   ├── phase2_audio_extractor.py  ⏳ Download & extract audio
+│   ├── phase3_transcriber.py      ⏳ Transcribe with Whisper
+│   ├── phase4_classifier.py       ⏳ Classify with GPT-4
+│   ├── phase5_final_csv.py        ⏳ Generate final CSV
+│   ├── phase2_audio_extractor_parallel.py
+│   └── phase3_transcriber_parallel.py
+│
+├── 📂 utils/                       Utility scripts
+│   ├── check_full_status.py       Check progress
+│   ├── create_subset.py           Create test subset
+│   └── retry_transcriptions.py    Retry failures
+│
+├── 📂 config/                      Configuration
+│   └── config.py                  Settings & paths
+│
+├── 📂 data/                        Input data
+│   ├── instagram.json             Instagram (278 videos)
+│   └── tiktok.json                TikTok (1,008 videos)
+│
+├── 📂 output/                      Generated files
+│   ├── viral_database.csv         ✅ Phase 1 (exists)
+│   ├── extracted_audio/           Phase 2 output
+│   ├── transcripts/               Phase 3 output
+│   ├── transcriptions.csv         Phase 3 summary
+│   ├── classifications.csv        Phase 4 output
+│   └── viral_database_FINAL.csv   Phase 5 ← DELIVERABLE
+│
+├── 📂 docs/                        Documentation
+│   ├── PROJECT_SUMMARY.md
+│   ├── QUICKSTART.md
+│   └── OPENAI_API_RESEARCH.md
+│
+└── 📂 logs/                        Log files
 ```
 
 ---
@@ -137,14 +155,16 @@ Generated Output:
 Before processing all 1,286 videos, test with a subset:
 
 ```bash
-# Create test subset (30 videos)
-python create_subset.py
-
-# Edit config.py temporarily:
-# Change OUTPUT_CSV = 'viral_database_subset.csv'
+# Create test subset
+python utils/create_subset.py
 
 # Run phases 2-5 on subset
-python phase2_audio_extractor.py  # etc...
+python scripts/phase2_audio_extractor.py
+python scripts/phase3_transcriber.py
+python scripts/phase4_classifier.py
+# Wait 24 hours
+python scripts/phase4_classifier.py
+python scripts/phase5_final_csv.py
 
 # Test cost: ~$0.60, Time: ~1 hour
 ```
@@ -155,10 +175,13 @@ python phase2_audio_extractor.py  # etc...
 
 ```bash
 # Check processing status
-python check_full_status.py
+python utils/check_full_status.py
+
+# Create test subset
+python utils/create_subset.py
 
 # Retry failed transcriptions
-python retry_transcriptions.py
+python utils/retry_transcriptions.py
 
 # Check OpenAI API balance
 # Visit: https://platform.openai.com/usage

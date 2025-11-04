@@ -3,10 +3,13 @@ Phase 2: Audio Extraction - Download videos and extract audio
 Uses yt-dlp to download videos and ffmpeg to extract audio.
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import os
 import subprocess
 import pandas as pd
-from pathlib import Path
 from tqdm import tqdm
 import config
 import json

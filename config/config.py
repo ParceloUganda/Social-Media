@@ -1,18 +1,23 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
+# Load .env from project root
 load_dotenv()
+
+# Project root directory
+PROJECT_ROOT = Path(__file__).parent.parent
 
 # OpenAI Configuration
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# File paths
-INSTAGRAM_JSON = 'instagram.json'
-TIKTOK_JSON = 'tiktok.json'
-OUTPUT_CSV = 'viral_database.csv'  # Full dataset - all accounts
-TEMP_DIR = 'temp_media'
-AUDIO_DIR = 'extracted_audio'
-TRANSCRIPTS_DIR = 'transcripts'
+# File paths (relative to project root)
+INSTAGRAM_JSON = PROJECT_ROOT / 'data' / 'instagram.json'
+TIKTOK_JSON = PROJECT_ROOT / 'data' / 'tiktok.json'
+OUTPUT_CSV = PROJECT_ROOT / 'output' / 'viral_database.csv'
+TEMP_DIR = PROJECT_ROOT / 'output' / 'temp_media'
+AUDIO_DIR = PROJECT_ROOT / 'output' / 'extracted_audio'
+TRANSCRIPTS_DIR = PROJECT_ROOT / 'output' / 'transcripts'
 
 # Luxury categorization thresholds (UGX)
 LOW_END_MAX = int(os.getenv('LOW_END_MAX', 150_000_000))

@@ -1,8 +1,11 @@
 """
-Phase 3: Transcription - PARALLEL VERSION
-Uses ThreadPoolExecutor for concurrent API calls to Whisper
-Optimized for M2 Pro with rate limiting
+Phase 3 (Parallel): Parallel Transcription with OpenAI Whisper
+Uses concurrent processing for faster execution.
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import os
 import json

@@ -1,7 +1,14 @@
 """
 Retry failed transcriptions and continue from where we left off
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import os
+import pandas as pd
+from openai import OpenAI
+import config
 import json
 
 print("=" * 60)

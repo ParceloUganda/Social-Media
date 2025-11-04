@@ -1,8 +1,12 @@
 """
-Phase 3: Transcription - Transcribe audio using OpenAI Whisper API
+Phase 3: Transcriber - Transcribe audio files using OpenAI Whisper API
 Supports both regular API and Batch API for cost savings.
 Handles Luganda and multilingual content.
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import os
 import json
@@ -171,7 +175,7 @@ def process_transcriptions():
     
     # Save all transcripts
     transcripts_df = pd.DataFrame(transcripts)
-    transcripts_csv = 'transcriptions.csv'
+    transcripts_csv = config.PROJECT_ROOT / 'output' / 'transcriptions.csv'
     transcripts_df.to_csv(transcripts_csv, index=False, encoding='utf-8')
     
     # Print statistics

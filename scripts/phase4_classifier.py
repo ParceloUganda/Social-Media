@@ -3,6 +3,10 @@ Phase 4: Product Classification - Use GPT-4 to classify products and demographic
 Uses Batch API for 50% cost savings.
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import os
 import json
 import time
@@ -78,7 +82,7 @@ def create_batch_file(transcripts_df: pd.DataFrame) -> str:
         batch_requests.append(request)
     
     # Save to .jsonl file
-    batch_file_path = 'batch_classification_requests.jsonl'
+    batch_file_path = config.PROJECT_ROOT / 'output' / 'batch_classification_requests.jsonl'
     with open(batch_file_path, 'w', encoding='utf-8') as f:
         for req in batch_requests:
             f.write(json.dumps(req) + '\n')
@@ -195,7 +199,7 @@ def classify_with_batch():
         return
     
     # Load transcriptions
-    transcripts_path = 'transcriptions.csv'
+    transcripts_path = config.PROJECT_ROOT / 'output' / 'transcriptions.csv'
     if not os.path.exists(transcripts_path):
         print(f"\n❌ Error: {transcripts_path} not found. Run phase3_transcriber.py first.")
         return
@@ -206,7 +210,7 @@ def classify_with_batch():
     print(f"   Found {len(successful)} successful transcriptions to classify")
     
     # Check if batch already exists
-    batch_status_file = 'batch_classification_status.json'
+    batch_status_file = config.PROJECT_ROOT / 'output' / 'batch_classification_status.json'
     
     if os.path.exists(batch_status_file):
         print(f"\n📋 Found existing batch job...")
@@ -226,7 +230,7 @@ def classify_with_batch():
             classifications_df = process_batch_results(results)
             
             # Save results
-            output_path = 'classifications.csv'
+            output_path = config.PROJECT_ROOT / 'output' / 'classifications.csv'
             classifications_df.to_csv(output_path, index=False, encoding='utf-8')
             
             print(f"\n💾 Classifications saved to: {output_path}")

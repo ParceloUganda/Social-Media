@@ -3,6 +3,10 @@ Phase 1: Data Parser - Extract initial data from JSON files to CSV
 Creates a basic CSV with available fields from Instagram and TikTok data.
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import json
 import pandas as pd
 from typing import List, Dict
